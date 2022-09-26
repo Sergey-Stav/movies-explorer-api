@@ -12,13 +12,13 @@ const errorProcessing = require('./errors/errorProcessing');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 4000 } = process.env;
+const { PORT = 3000 } = process.env;
 const { DATA_BASE, NODE_ENV } = process.env;
 const app = express();
 
 const options = {
   origin: [
-    'http://localhost:4006',
+    'http://localhost:3006',
     // 'http://mestos.students.nomoredomains.sbs',
     // 'https://mestos.students.nomoredomains.sbs',
     // 'http://51.250.18.119',
