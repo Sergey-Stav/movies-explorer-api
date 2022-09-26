@@ -56,8 +56,7 @@ const createUser = (req, res, next) => {
       name,
     }))
     .then((user) => {
-      // eslint-disable-next-line no-underscore-dangle
-      const newUser = { ...user._doc };
+      const newUser = { ...user.toJSON() };
       delete newUser.password;
       res.status(201).send(newUser);
     })
