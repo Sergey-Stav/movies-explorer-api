@@ -1,5 +1,5 @@
 const { ApplicationError } = require('./errors');
-const { ErrorUnauthorized } = require('./state');
+const { ErrorUnauthorized } = require('../utils/constants');
 
 class UnauthorizedError extends ApplicationError {
   constructor(message) {

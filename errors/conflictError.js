@@ -1,5 +1,5 @@
 const { ApplicationError } = require('./errors');
-const { ErrorConflict } = require('./state');
+const { ErrorConflict } = require('../utils/constants');
 
 class ConflictError extends ApplicationError {
   constructor(message) {

@@ -1,6 +1,6 @@
-/* eslint-disable prefer-regex-literals */
 const router = require('express').Router();
 const { celebrate, Joi } = require('celebrate');
+const { REGULAR_URL } = require('../utils/constants');
 
 const {
   getMovies, createMovie, deleteMovieById,
@@ -19,10 +19,10 @@ router.post('/', celebrate({
     duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
-    image: Joi.string().required().pattern(new RegExp(/^(https?:\/\/)(www\.)?[\w-]+(\.[a-z])+[\w~!@#$%&*()-+=:;\\'",.?/]+#?/i)),
-    trailer: Joi.string().required().pattern(new RegExp(/^(https?:\/\/)(www\.)?[\w-]+(\.[a-z])+[\w~!@#$%&*()-+=:;\\'",.?/]+#?/i)),
-    thumbnail: Joi.string().required().pattern(new RegExp(/^(https?:\/\/)(www\.)?[\w-]+(\.[a-z])+[\w~!@#$%&*()-+=:;\\'",.?/]+#?/i)),
-    movieId: Joi.string().required(),
+    image: Joi.string().required().pattern(REGULAR_URL),
+    trailerLink: Joi.string().required().pattern(REGULAR_URL),
+    thumbnail: Joi.string().required().pattern(REGULAR_URL),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
   }),

@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const validator = require('validator');
+const { WRONG_DATA_MOVIE } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -23,33 +25,27 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    validate: {
-      validator(v) {
-        return /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i.test(v);
-      },
-      message: 'Передана некорректная ссылка на постер к фильму',
-    },
     required: true,
+    validate: {
+      validator: validator.isURL,
+      message: WRONG_DATA_MOVIE,
+    },
   },
-  trailer: {
+  trailerLink: {
     type: String,
-    validate: {
-      validator(v) {
-        return /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i.test(v);
-      },
-      message: 'Передана некорректная ссылка на трейлер к фильму',
-    },
     required: true,
+    validate: {
+      validator: validator.isURL,
+      message: WRONG_DATA_MOVIE,
+    },
   },
   thumbnail: {
     type: String,
-    validate: {
-      validator(v) {
-        return /https?:\/\/(w{3}\.)?([\w-]{1,}\.)+[\w._~:/?#[\]@!$&'()*+,;=]*#?/i.test(v);
-      },
-      message: 'Передана некорректная ссылка на миниатюру постера',
-    },
     required: true,
+    validate: {
+      validator: validator.isURL,
+      message: WRONG_DATA_MOVIE,
+    },
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -58,7 +54,7 @@ const movieSchema = new mongoose.Schema({
     select: false,
   },
   movieId: {
-    type: String,
+    type: Number,
     required: true,
   },
   nameRU: {

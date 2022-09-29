@@ -1,5 +1,5 @@
 const { ApplicationError } = require('./errors');
-const { ErrorForbidden } = require('./state');
+const { ErrorForbidden } = require('../utils/constants');
 
 class ForbiddenError extends ApplicationError {
   constructor(message) {

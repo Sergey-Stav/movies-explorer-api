@@ -2,6 +2,11 @@ const Movie = require('../models/movie');
 const NotFound = require('../errors/notFoundError');
 const BadRequestError = require('../errors/badRequestError');
 const ForbiddenError = require('../errors/forbiddenError');
+const {
+  WRONG_DATA_MOVIE,
+  MOVIE_NOT_FOUND,
+  ACCESS_ERROR,
+} = require('../utils/constants');
 
 // Получение всех карточек
 const getMovies = (req, res, next) => {
@@ -12,13 +17,22 @@ const getMovies = (req, res, next) => {
     .catch(next);
 };
 
-// Создание новой карточки
+// Создание новой фильма
 const createMovie = (req, res, next) => {
   const {
-    country, director, duration, year, description,
-    image, trailer, thumbnail, movieId, nameRU, nameEN,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailerLink,
+    thumbnail,
+    movieId,
+    nameRU,
+    nameEN,
   } = req.body;
-  const owner = req.user._id;
+
   Movie.create({
     country,
     director,
@@ -26,45 +40,32 @@ const createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     thumbnail,
     movieId,
     nameRU,
     nameEN,
-    owner,
+    owner: req.user._id,
   })
-    .then((movie) => res.status(201).send({
-      _id: movie._id,
-      country: movie.country,
-      director: movie.director,
-      duration: movie.duration,
-      year: movie.year,
-      description: movie.description,
-      image: movie.image,
-      trailer: movie.trailer,
-      thumbnail: movie.thumbnail,
-      movieId: movie.movieId,
-      nameRU: movie.nameRU,
-      nameEN: movie.nameEN,
-    }))
+    .then((movie) => res.status(201).send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные'));
+        next(new BadRequestError(WRONG_DATA_MOVIE));
       } else {
         next(err);
       }
     });
 };
 
-// Удаление карточки
+// Удаление фильма
 const deleteMovieById = (req, res, next) => {
   Movie.findById(req.params.movieId).select('+owner')
     .orFail(() => {
-      throw new NotFound('Фильм с указанным id не найден');
+      throw new NotFound(MOVIE_NOT_FOUND);
     })
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id) {
-        throw new ForbiddenError('Нельзя удалить чужой фильм!');
+        throw new ForbiddenError(ACCESS_ERROR);
       }
       Movie.findByIdAndRemove(req.params.movieId).select('-owner')
         .then((deletedMovie) => res.status(200).send(deletedMovie))

@@ -1,5 +1,5 @@
 const { ApplicationError } = require('./errors');
-const { ErrorValidation } = require('./state');
+const { ErrorValidation } = require('../utils/constants');
 
 class BadRequestError extends ApplicationError {
   constructor(message) {

@@ -1,5 +1,5 @@
 const { ApplicationError } = require('./errors');
-const { ErrorNotFound } = require('./state');
+const { ErrorNotFound } = require('../utils/constants');
 
 class NotFound extends ApplicationError {
   constructor(message) {

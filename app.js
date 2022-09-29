@@ -8,7 +8,7 @@ const { errors } = require('celebrate');
 const cors = require('cors');
 const limiter = require('./middlewares/rate-limiter');
 const errorProcessing = require('./errors/errorProcessing');
-
+const { devDatabaseUrl } = require('./utils/config');
 const routes = require('./routes/index');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -19,10 +19,6 @@ const app = express();
 const options = {
   origin: [
     'http://localhost:3006',
-    // 'http://mestos.students.nomoredomains.sbs',
-    // 'https://mestos.students.nomoredomains.sbs',
-    // 'http://51.250.18.119',
-    // 'https://51.250.18.119',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
@@ -37,13 +33,15 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect(NODE_ENV === 'production' ? DATA_BASE : 'mongodb://localhost:27017/moviesdb_test', {
+mongoose.connect(NODE_ENV === 'production' ? DATA_BASE : devDatabaseUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 app.use(requestLogger); // подключаем логгер запросов
+
 app.use(helmet());
+
 app.use(limiter);
 
 app.use(routes);

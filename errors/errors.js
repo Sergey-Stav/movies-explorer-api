@@ -1,4 +1,4 @@
-const { ErrorDefault } = require('./state');
+const { ErrorDefault } = require('../utils/constants');
 
 class ApplicationError extends Error {
   constructor(status = ErrorDefault, message = 'Internal server error') {

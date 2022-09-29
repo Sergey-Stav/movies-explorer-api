@@ -1,4 +1,4 @@
-const ErrorDefault = require('./state');
+const ErrorDefault = require('../utils/constants');
 
 module.exports = (err, req, res, next) => {
   if (err.status) {
