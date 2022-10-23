@@ -19,6 +19,10 @@ const app = express();
 const options = {
   origin: [
     'http://localhost:3006',
+    'http://diploma.students.nomorepartiesxyz.ru',
+    'https://diploma.students.nomorepartiesxyz.ru',
+    'http://62.84.120.221',
+    'https://62.84.120.221',
   ],
   methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   preflightContinue: false,
